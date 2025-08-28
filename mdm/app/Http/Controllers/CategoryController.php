@@ -10,7 +10,11 @@ class CategoryController extends Controller
 {
     public function index()
     {
-        $categories = Category::where('user_id', Auth::id())->paginate(5);
+        if (auth()->user()->is_admin) {
+            $categories = Category::paginate(5);
+        } else {
+            $categories = Category::where('user_id', Auth::id())->paginate(5);
+        }
         return view('categories.index', compact('categories'));
     }
 
@@ -36,33 +40,40 @@ class CategoryController extends Controller
         return redirect()->route('categories.index')->with('success', 'Category created!');
     }
 
-    public function edit($id)
+    public function edit(Category $category)
     {
-        $category = Category::findOrFail($id);
-        return view('categories.edit', compact('category'));
+        if (auth()->user()->is_admin || $category->user_id === Auth::id()) {
+            return view('categories.edit', compact('category'));
+        }
+        abort(403);
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, Category $category)
     {
+        if (!auth()->user()->is_admin && $category->user_id !== Auth::id()) {
+            abort(403);
+        }
+
         $request->validate([
-            'code' => 'required',
-            'name' => 'required'
+            'code' => 'required|max:255|unique:categories,code,' . $category->id,
+            'name' => 'required|max:255',
         ]);
 
-        $category = Category::findOrFail($id);
         $category->update([
             'code' => $request->code,
             'name' => $request->name,
-            'status' => $request->status
+            'status' => $request->status ?? 'Active',
         ]);
 
-        return redirect()->route('categories.index');
+        return redirect()->route('categories.index')->with('success', 'Category updated!');
     }
 
-    public function destroy($id)
+    public function destroy(Category $category)
     {
-        $category = Category::findOrFail($id);
+        if (!auth()->user()->is_admin && $category->user_id !== Auth::id()) {
+            abort(403);
+        }
         $category->delete();
-        return redirect()->route('categories.index');
+        return redirect()->route('categories.index')->with('success', 'Category deleted!');
     }
 }

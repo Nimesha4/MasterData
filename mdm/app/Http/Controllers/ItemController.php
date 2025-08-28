@@ -12,7 +12,11 @@ class ItemController extends Controller
 {
     public function index()
     {
-        $items = Item::where('user_id', Auth::id())->with(['brand', 'category'])->paginate(5);
+        if (auth()->user()->is_admin) {
+            $items = Item::with(['brand', 'category'])->paginate(5);
+        } else {
+            $items = Item::where('user_id', Auth::id())->with(['brand', 'category'])->paginate(5);
+        }
         return view('items.index', compact('items'));
     }
 
@@ -48,15 +52,24 @@ class ItemController extends Controller
 
     public function edit(Item $item)
     {
-        $this->authorize('update', $item);
-        $brands = Brand::where('user_id', Auth::id())->get();
-        $categories = Category::where('user_id', Auth::id())->get();
-        return view('items.edit', compact('item', 'brands', 'categories'));
+        if (auth()->user()->is_admin || $item->user_id === Auth::id()) {
+            // Admin can edit any, user only their own
+            $brands = auth()->user()->is_admin
+                ? Brand::all()
+                : Brand::where('user_id', Auth::id())->get();
+            $categories = auth()->user()->is_admin
+                ? Category::all()
+                : Category::where('user_id', Auth::id())->get();
+            return view('items.edit', compact('item', 'brands', 'categories'));
+        }
+        abort(403);
     }
 
     public function update(Request $request, Item $item)
     {
-        $this->authorize('update', $item);
+        if (!auth()->user()->is_admin && $item->user_id !== Auth::id()) {
+            abort(403);
+        }
 
         $request->validate([
             'brand_id' => 'required|exists:brands,id',
@@ -79,7 +92,9 @@ class ItemController extends Controller
 
     public function destroy(Item $item)
     {
-        $this->authorize('delete', $item);
+        if (!auth()->user()->is_admin && $item->user_id !== Auth::id()) {
+            abort(403);
+        }
         $item->delete();
         return redirect()->route('items.index')->with('success', 'Item deleted!');
     }

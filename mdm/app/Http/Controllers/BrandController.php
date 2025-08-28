@@ -10,7 +10,11 @@ class BrandController extends Controller
 {
     public function index()
     {
-        $brands = Brand::where('user_id', Auth::id())->get();
+        if (auth()->user()->is_admin) {
+            $brands = Brand::paginate(5); // Admin sees all
+        } else {
+            $brands = Brand::where('user_id', Auth::id())->paginate(5); // User sees own
+        }
         return view('brands.index', compact('brands'));
     }
 
@@ -36,33 +40,40 @@ class BrandController extends Controller
         return redirect()->route('brands.index');
     }
 
-    public function edit($id)
+    public function edit(Brand $brand)
     {
-        $brand = Brand::findOrFail($id);
-        return view('brands.edit', compact('brand'));
+        if (auth()->user()->is_admin || $brand->user_id === Auth::id()) {
+            return view('brands.edit', compact('brand'));
+        }
+        abort(403);
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, Brand $brand)
     {
+        if (!auth()->user()->is_admin && $brand->user_id !== Auth::id()) {
+            abort(403);
+        }
+
         $request->validate([
-            'code'=>'required',
-            'name'=>'required'
+            'code' => 'required|max:255|unique:brands,code,' . $brand->id,
+            'name' => 'required|max:255',
         ]);
 
-        $brand = Brand::where('id', $id)->where('user_id', Auth::id())->firstOrFail();
         $brand->update([
-            'code'=>$request->code,
-            'name'=>$request->name,
-            'status'=>$request->status
+            'code' => $request->code,
+            'name' => $request->name,
+            'status' => $request->status ?? 'Active',
         ]);
 
-        return redirect()->route('brands.index');
+        return redirect()->route('brands.index')->with('success', 'Brand updated!');
     }
 
-    public function destroy($id)
+    public function destroy(Brand $brand)
     {
-        $brand = Brand::findOrFail($id);
+        if (!auth()->user()->is_admin && $brand->user_id !== Auth::id()) {
+            abort(403);
+        }
         $brand->delete();
-        return redirect()->route('brands.index');
+        return redirect()->route('brands.index')->with('success', 'Brand deleted!');
     }
 }

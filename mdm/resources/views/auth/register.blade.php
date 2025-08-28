@@ -39,6 +39,15 @@
             <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
         </div>
 
+        <!-- Register as Admin or User -->
+        <div class="mt-4">
+            <label for="is_admin">Register as:</label>
+            <select name="is_admin" id="is_admin" required>
+                <option value="0">User</option>
+                <option value="1">Admin</option>
+            </select>
+        </div>
+
         <div class="flex items-center justify-end mt-4">
             <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('login') }}">
                 {{ __('Already registered?') }}
