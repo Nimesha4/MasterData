@@ -540,10 +540,9 @@
                 Add New Item
             </a>
         @endif
-
         </div>
-        
-        @if(count($items) > 0)
+
+        @if($items->count() > 0)
             <div class="items-table-container">
                 <table class="items-table">
                     <thead>
@@ -616,6 +615,9 @@
                         @endforeach
                     </tbody>
                 </table>
+            </div>
+            <div style="margin-top: 2rem; text-align: center;">
+                {{ $items->links() }}
             </div>
         @else
             <div class="empty-state">

@@ -485,7 +485,7 @@
             @endif
         </div>
         
-        @if(count($categories) > 0)
+        @if($categories->count() > 0)
             <div class="categories-table-container">
                 <table class="categories-table">
                     <thead>
@@ -532,6 +532,9 @@
                         @endforeach
                     </tbody>
                 </table>
+            </div>
+            <div style="margin-top: 2rem; text-align: center;">
+                {{ $categories->links() }}
             </div>
         @else
             <div class="empty-state">

@@ -485,7 +485,7 @@
             @endif
         </div>
         
-        @if(count($brands) > 0)
+        @if($brands->count() > 0)
             <div class="brands-table-container">
                 <table class="brands-table">
                     <thead>
@@ -532,6 +532,9 @@
                         @endforeach
                     </tbody>
                 </table>
+            </div>
+            <div style="margin-top: 2rem; text-align: center;">
+                {{ $brands->links() }}
             </div>
         @else
             <div class="empty-state">
