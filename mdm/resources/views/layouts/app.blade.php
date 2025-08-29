@@ -29,7 +29,7 @@
 
             <!-- Page Content -->
             <main>
-                @include('layouts.header')
+                
 
                 @yield('content')
 

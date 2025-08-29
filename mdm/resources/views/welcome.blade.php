@@ -9,10 +9,11 @@
     
     <style>
         :root {
-            --primary: #6366f1;
-            --primary-dark: #4f46e5;
-            --secondary: #8b5cf6;
-            --accent: #06b6d4;
+            --primary: #FF8C00;
+            --primary-dark: #e07a00;
+            --primary-light: rgba(255, 140, 0, 0.1);
+            --secondary: #FF6B35;
+            --accent: #FFA726;
             --success: #10b981;
             --warning: #f59e0b;
             --error: #ef4444;
@@ -153,12 +154,12 @@
             background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
             color: white;
             font-weight: 600;
-            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+            box-shadow: 0 4px 15px rgba(255, 140, 0, 0.4);
         }
         
         .nav-link.primary:hover {
             background: linear-gradient(135deg, var(--primary-dark) 0%, var(--secondary) 100%);
-            box-shadow: 0 6px 25px rgba(99, 102, 241, 0.6);
+            box-shadow: 0 6px 25px rgba(255, 140, 0, 0.6);
             transform: translateY(-3px);
         }
         
@@ -193,7 +194,7 @@
             right: -50%;
             width: 200%;
             height: 200%;
-            background: radial-gradient(circle, rgba(99, 102, 241, 0.05) 0%, transparent 50%);
+            background: radial-gradient(circle, rgba(255, 140, 0, 0.05) 0%, transparent 50%);
             z-index: -1;
         }
         
@@ -239,6 +240,7 @@
             background: white;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
             transform: translateY(-2px);
+            border-color: rgba(255, 140, 0, 0.2);
         }
 
         .feature-icon {
@@ -284,12 +286,12 @@
         .btn-primary {
             background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
             color: white;
-            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.4);
+            box-shadow: 0 10px 30px rgba(255, 140, 0, 0.4);
         }
         
         .btn-primary:hover {
             transform: translateY(-3px);
-            box-shadow: 0 15px 40px rgba(99, 102, 241, 0.6);
+            box-shadow: 0 15px 40px rgba(255, 140, 0, 0.6);
         }
 
         .btn-primary::before {
@@ -308,7 +310,7 @@
         }
         
         .btn-secondary {
-            background: rgba(99, 102, 241, 0.1);
+            background: rgba(255, 140, 0, 0.1);
             color: var(--primary);
             border: 2px solid var(--primary);
         }
@@ -317,7 +319,7 @@
             background: var(--primary);
             color: white;
             transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.4);
+            box-shadow: 0 10px 30px rgba(255, 140, 0, 0.4);
         }
         
         /* Dashboard Preview */
@@ -368,6 +370,12 @@
             border-radius: 12px;
             text-align: center;
             border: 1px solid var(--gray-200);
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            border-color: rgba(255, 140, 0, 0.3);
+            box-shadow: 0 4px 15px rgba(255, 140, 0, 0.1);
         }
 
         .stat-number {
@@ -416,9 +424,18 @@
             font-weight: 600;
         }
 
-        .brand-icon { background: linear-gradient(135deg, #ff6b6b, #ee5a24); color: white; }
-        .category-icon { background: linear-gradient(135deg, #26de81, #20bf6b); color: white; }
-        .product-icon { background: linear-gradient(135deg, #feca57, #ff9ff3); color: white; }
+        .brand-icon { 
+            background: linear-gradient(135deg, var(--primary), var(--secondary)); 
+            color: white; 
+        }
+        .category-icon { 
+            background: linear-gradient(135deg, var(--accent), var(--primary)); 
+            color: white; 
+        }
+        .product-icon { 
+            background: linear-gradient(135deg, var(--secondary), var(--accent)); 
+            color: white; 
+        }
         
         /* Floating Elements */
         .floating-elements {
@@ -584,6 +601,11 @@
             color: white;
             font-size: 12px;
             font-weight: 600;
+        }
+
+        /* Enhanced brand styling */
+        .preview-header .logo-icon {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
         }
     </style>
 </head>
