@@ -477,10 +477,38 @@
         }
     }
 </style>
+<style>
+        /* Hide number input spinners for all browsers */
+        input[type=number]::-webkit-inner-spin-button, 
+        input[type=number]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+</style>
 
 <div class="dashboard-container">
     <div class="container-fluid">
-        
+        <!-- Large Centered Search Bar for Dashboard (Admin & User) -->
+        <div style="display: flex; justify-content: center; align-items: center; margin-bottom: 2.5rem; margin-top: 1.5rem;">
+            <form action="{{ route('dashboard') }}" method="GET" style="width: 100%; max-width: 600px;">
+                <div style="display: flex; align-items: center; background: #fff; border-radius: 2.5rem; box-shadow: 0 2px 12px rgba(255,140,0,0.08); border: 1.5px solid #FF8C00; padding: 0.25rem 1.2rem;">
+                    <input type="text" name="dashboard_search" value="{{ request('dashboard_search') }}" placeholder="Search items, categories, brands..." style="flex: 1; border: none !important; outline: none !important; box-shadow: none !important; font-size: 1.1rem; padding: 0.45rem 0.8rem; background: transparent; color: #2d3748; font-weight: 500;" autofocus autocomplete="off">
+</style>
+<style>
+    /* Remove border on focus for dashboard search bar */
+    input[name="dashboard_search"]:focus {
+        border: none !important;
+        outline: none !important;
+        box-shadow: none !important;
+    }
+</style>
+                    <button type="submit" style="background: #FF8C00; color: #fff; border: none; border-radius: 2rem; padding: 0.5rem 1.5rem; font-size: 1rem; font-weight: 600; margin-left: 1rem; box-shadow: 0 2px 8px rgba(255,140,0,0.12); transition: background 0.2s; cursor: pointer;">Search</button>
+                </div>
+            </form>
+        </div>
         @if($user->is_admin)
             <h2 class="section-title">Dashboard Overview – Track, Analyze & Manage Data at a Glance</h2>
             
