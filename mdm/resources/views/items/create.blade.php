@@ -398,6 +398,20 @@
     </div>
     
     <div class="form-content">
+        @if(session('success'))
+            <div class="alert alert-success" style="background:#d1fae5;color:#065f46;padding:1rem;border-radius:8px;margin-bottom:1rem;">
+                {{ session('success') }}
+            </div>
+        @endif
+        @if($errors->any())
+            <div class="alert alert-danger" style="background:#fee2e2;color:#991b1b;padding:1rem;border-radius:8px;margin-bottom:1rem;">
+                <ul style="margin:0;padding-left:1.2em;">
+                    @foreach($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
         <div class="form-card">
             <div class="form-header-card">
                 <h2 class="form-subtitle">Create Item</h2>
@@ -417,8 +431,12 @@
                             <select name="brand_id" id="brand_id" class="form-select" required>
                                 <option value="">Select a brand</option>
                                 @foreach($brands as $brand)
-                                    <option value="{{ $brand->id }}">{{ $brand->name }}</option>
+                                    <option value="{{ $brand->id }}" {{ old('brand_id') == $brand->id ? 'selected' : '' }}>{{ $brand->name }}</option>
                                 @endforeach
+                            </select>
+                            @error('brand_id')
+                                <div class="form-error" style="color:#e53e3e;font-size:0.85em;margin-top:0.25em;">{{ $message }}</div>
+                            @enderror
                             </select>
                         </div>
                         
@@ -430,8 +448,12 @@
                             <select name="category_id" id="category_id" class="form-select" required>
                                 <option value="">Select a category</option>
                                 @foreach($categories as $category)
-                                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                    <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
                                 @endforeach
+                            </select>
+                            @error('category_id')
+                                <div class="form-error" style="color:#e53e3e;font-size:0.85em;margin-top:0.25em;">{{ $message }}</div>
+                            @enderror
                             </select>
                         </div>
                         
@@ -440,7 +462,10 @@
                                 <span class="label-icon">🔢</span>
                                 Item Code
                             </label>
-                            <input type="text" name="code" id="code" class="form-input" placeholder="Enter item code" required>
+                            <input type="text" name="code" id="code" class="form-input" placeholder="Enter item code" value="{{ old('code') }}" required>
+                            @error('code')
+                                <div class="form-error" style="color:#e53e3e;font-size:0.85em;margin-top:0.25em;">{{ $message }}</div>
+                            @enderror
                         </div>
                         
                         <div class="form-group">
@@ -448,7 +473,10 @@
                                 <span class="label-icon">📝</span>
                                 Item Name
                             </label>
-                            <input type="text" name="name" id="name" class="form-input" placeholder="Enter item name" required>
+                            <input type="text" name="name" id="name" class="form-input" placeholder="Enter item name" value="{{ old('name') }}" required>
+                            @error('name')
+                                <div class="form-error" style="color:#e53e3e;font-size:0.85em;margin-top:0.25em;">{{ $message }}</div>
+                            @enderror
                         </div>
                         
                         <div class="form-group full-width">
@@ -458,14 +486,17 @@
                             </label>
                             <div class="status-options">
                                 <div class="status-option">
-                                    <input type="radio" name="status" id="status_active" value="Active" class="status-radio" checked>
+                                    <input type="radio" name="status" id="status_active" value="Active" class="status-radio" {{ old('status', 'Active') == 'Active' ? 'checked' : '' }}>
                                     <label for="status_active" class="status-label status-active">
                                         <span class="status-indicator"></span>
                                         Active
                                     </label>
                                 </div>
                                 <div class="status-option">
-                                    <input type="radio" name="status" id="status_inactive" value="Inactive" class="status-radio">
+                                    <input type="radio" name="status" id="status_inactive" value="Inactive" class="status-radio" {{ old('status') == 'Inactive' ? 'checked' : '' }}>
+                            @error('status')
+                                <div class="form-error" style="color:#e53e3e;font-size:0.85em;margin-top:0.25em;">{{ $message }}</div>
+                            @enderror
                                     <label for="status_inactive" class="status-label status-inactive">
                                         <span class="status-indicator"></span>
                                         Inactive
@@ -481,6 +512,9 @@
                             </label>
                             <div class="form-file-input">
                                 <input type="file" name="attachment" id="attachment">
+                                @error('attachment')
+                                    <div class="form-error" style="color:#e53e3e;font-size:0.85em;margin-top:0.25em;">{{ $message }}</div>
+                                @enderror
                                 <div class="file-input-content">
                                     <div class="file-input-icon">📁</div>
                                     <div class="file-input-text">Click to upload file</div>

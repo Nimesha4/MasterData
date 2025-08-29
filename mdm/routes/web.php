@@ -24,6 +24,7 @@ Route::middleware('auth')->group(function () {
    
     Route::resource('brands', BrandController::class)->middleware('auth');
     Route::resource('categories', CategoryController::class)->middleware('auth');
+    Route::get('items/export', [ItemController::class, 'export'])->name('items.export');
     Route::resource('items', ItemController::class)->middleware('auth');
 
 });

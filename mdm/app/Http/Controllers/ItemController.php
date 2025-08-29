@@ -6,18 +6,76 @@ use App\Models\Item;
 use App\Models\Brand;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use App\Http\Requests\ItemRequest;
 use Illuminate\Support\Facades\Auth;
 
 class ItemController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        if (auth()->user()->is_admin) {
-            $items = Item::with(['brand', 'category'])->paginate(5);
-        } else {
-            $items = Item::where('user_id', Auth::id())->with(['brand', 'category'])->paginate(5);
+        $query = Item::with(['brand', 'category']);
+        if (!auth()->user()->is_admin) {
+            $query->where('user_id', Auth::id());
         }
+        if ($request->filled('search')) {
+            $search = $request->input('search');
+            $query->where(function($q) use ($search) {
+                $q->where('code', 'like', "%$search%")
+                  ->orWhere('name', 'like', "%$search%")
+                  ->orWhere('status', 'like', "%$search%")
+                  ;
+            });
+        }
+        $items = $query->paginate(5)->appends($request->all());
         return view('items.index', compact('items'));
+    }
+
+    public function export(Request $request)
+    {
+        $type = $request->input('type', 'csv');
+        $query = Item::with(['brand', 'category']);
+        if (!auth()->user()->is_admin) {
+            $query->where('user_id', Auth::id());
+        }
+        if ($request->filled('search')) {
+            $search = $request->input('search');
+            $query->where(function($q) use ($search) {
+                $q->where('code', 'like', "%$search%")
+                  ->orWhere('name', 'like', "%$search%")
+                  ->orWhere('status', 'like', "%$search%")
+                  ;
+            });
+        }
+        $items = $query->get();
+
+        if ($type === 'pdf') {
+            $pdf = \PDF::loadView('items.export_pdf', ['items' => $items]);
+            return $pdf->download('items_export.pdf');
+        } else {
+            $csvData = [];
+            $csvData[] = ['ID', 'Brand', 'Category', 'Code', 'Name', 'Status'];
+            foreach ($items as $item) {
+                $csvData[] = [
+                    $item->id,
+                    $item->brand ? $item->brand->name : '',
+                    $item->category ? $item->category->name : '',
+                    $item->code,
+                    $item->name,
+                    $item->status,
+                ];
+            }
+            $filename = 'items_export.csv';
+            $handle = fopen('php://temp', 'r+');
+            foreach ($csvData as $row) {
+                fputcsv($handle, $row);
+            }
+            rewind($handle);
+            $csv = stream_get_contents($handle);
+            fclose($handle);
+            return response($csv)
+                ->header('Content-Type', 'text/csv')
+                ->header('Content-Disposition', 'attachment; filename="' . $filename . '"');
+        }
     }
 
     public function create()
@@ -27,26 +85,14 @@ class ItemController extends Controller
         return view('items.create', compact('brands', 'categories'));
     }
 
-    public function store(Request $request)
+    public function store(ItemRequest $request)
     {
-        $request->validate([
-            'brand_id' => 'required|exists:brands,id',
-            'category_id' => 'required|exists:categories,id',
-            'code' => 'required|unique:items,code|max:255',
-            'name' => 'required|max:255',
-            'attachment' => 'nullable|file|mimes:jpg,jpeg,png,pdf,doc,docx|max:2048',
-        ]);
-
-        $data = $request->only(['brand_id', 'category_id', 'code', 'name']);
+        $data = $request->only(['brand_id', 'category_id', 'code', 'name', 'status']);
         $data['user_id'] = Auth::id();
-        $data['status'] = 'Active';
-
         if ($request->hasFile('attachment')) {
             $data['attachment'] = $request->file('attachment')->store('attachments', 'public');
         }
-
         Item::create($data);
-
         return redirect()->route('items.index')->with('success', 'Item created!');
     }
 
@@ -65,28 +111,17 @@ class ItemController extends Controller
         abort(403);
     }
 
-    public function update(Request $request, Item $item)
+    public function update(ItemRequest $request, Item $item)
     {
         if (!auth()->user()->is_admin && $item->user_id !== Auth::id()) {
             abort(403);
         }
 
-        $request->validate([
-            'brand_id' => 'required|exists:brands,id',
-            'category_id' => 'required|exists:categories,id',
-            'code' => 'required|max:255|unique:items,code,' . $item->id,
-            'name' => 'required|max:255',
-            'attachment' => 'nullable|file|mimes:jpg,jpeg,png,pdf,doc,docx|max:2048',
-        ]);
-
-        $data = $request->only(['brand_id', 'category_id', 'code', 'name']);
-
+        $data = $request->only(['brand_id', 'category_id', 'code', 'name', 'status']);
         if ($request->hasFile('attachment')) {
             $data['attachment'] = $request->file('attachment')->store('attachments', 'public');
         }
-
         $item->update($data);
-
         return redirect()->route('items.index')->with('success', 'Item updated!');
     }
 
