@@ -478,9 +478,11 @@
             <div class="brands-count">
                 Manage your product brands
             </div>
+            @if(!auth()->user()->is_admin)
             <a href="{{ route('brands.create') }}" class="btn-add">
                 Add New Brand
             </a>
+            @endif
         </div>
         
         @if(count($brands) > 0)

@@ -535,9 +535,12 @@
             <div class="items-count">
                 Manage your product items
             </div>
+        @if(!auth()->user()->is_admin)
             <a href="{{ route('items.create') }}" class="btn-add">
                 Add New Item
             </a>
+        @endif
+
         </div>
         
         @if(count($items) > 0)

@@ -478,9 +478,11 @@
             <div class="categories-count">
                 Manage your product categories
             </div>
+            @if(!auth()->user()->is_admin)
             <a href="{{ route('categories.create') }}" class="btn-add">
                 Add New Category
             </a>
+            @endif
         </div>
         
         @if(count($categories) > 0)
