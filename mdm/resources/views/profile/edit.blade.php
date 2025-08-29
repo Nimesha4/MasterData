@@ -3,9 +3,10 @@
 @section('content')
 <style>
     body {
-        background: linear-gradient(135deg, #FF8C00 0%, rgba(255, 140, 0, 0.8) 5%, #f8fafc 100%);
-        min-height: 100vh;
+    background: linear-gradient(135deg, #FF8C00 0%, rgba(255, 140, 0, 0.8) 10%, #f8fafc 90%);
+    min-height: 100vh;
     }
+
     .profile-card {
         max-width: 500px;
         margin: 40px auto;

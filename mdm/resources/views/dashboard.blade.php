@@ -25,7 +25,7 @@
     }
     
     .section-title {
-        color: #2d3748;
+        color: black;
         font-size: 1.75rem;
         font-weight: 700;
         margin: 2rem 0 2rem 0;
@@ -44,6 +44,64 @@
         background: linear-gradient(90deg, #FF8C00, rgba(255, 140, 0, 0.3));
         border-radius: 2px;
     }
+
+    .image-row {
+    display: flex;
+    justify-content: center;
+    gap: 20px; /* space between images */
+    margin: 20px 0;
+}
+
+.image-row img {
+    width: 400px;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.summary-row {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin: 2.5rem 0;
+}
+
+.summary-card {
+    width: 220px;
+    height: 150px;
+    border-radius: 16px;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    border: 1px solid rgba(255, 140, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.summary-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 20px rgba(255, 140, 0, 0.2);
+}
+
+.summary-number {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #FF8C00;
+    margin-bottom: 0.5rem;
+}
+
+.summary-label {
+    font-size: 1rem;
+    color: #2d3748;
+    font-weight: 600;
+}
+
+
+
+
     
     .users-grid {
         display: grid;
@@ -162,7 +220,7 @@
         border: none;
         font-size: 0.8rem;
         font-weight: 600;
-        color: rgba(255, 140, 0, 0.7);
+        color: black;
         cursor: pointer;
         transition: all 0.2s ease;
         position: relative;
@@ -170,7 +228,7 @@
     }
     
     .tab-btn.active {
-        color: #FF8C00;
+        color: black;
         background: rgba(255, 140, 0, 0.1);
     }
     
@@ -210,7 +268,7 @@
         padding: 0.75rem 1rem;
         text-align: left;
         font-weight: 600;
-        color: #FF8C00;
+        color: black;
         font-size: 0.75rem;
         text-transform: uppercase;
         letter-spacing: 0.05em;
@@ -239,7 +297,7 @@
     }
     
     .item-code {
-        color: rgba(255, 140, 0, 0.8);
+        color: black;
         font-size: 0.7rem;
         font-family: 'Monaco', 'Menlo', monospace;
         background: rgba(255, 140, 0, 0.1);
@@ -424,7 +482,7 @@
     <div class="container-fluid">
         
         @if($user->is_admin)
-            <h2 class="section-title">👥 All Users Management Dashboard</h2>
+            <h2 class="section-title">Dashboard Overview – Track, Analyze & Manage Data at a Glance</h2>
             
             <div class="users-grid">
                 @foreach($users as $u)
@@ -599,7 +657,68 @@
                 @endif
                 @endforeach
             </div>
+                <!-- Additional Pictures Section: Displayed after all user cards -->
+              <div class="image-row">
+    <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb" alt="Nature 1">
+    <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e" alt="Nature 2">
+    <img src="https://images.unsplash.com/photo-1493244040629-496f6d136cc3" alt="Nature 3">
+</div>
+
+
             
+
+<!-- Summary Row: Replaces image-row -->
+<div class="summary-row">
+    <div class="summary-card">
+        <div class="summary-number">
+            @if($user->is_admin)
+                {{ \App\Models\Item::count() }}
+            @else
+                {{ count($items) }}
+            @endif
+        </div>
+        <div class="summary-label">Items</div>
+    </div>
+    <div class="summary-card">
+        <div class="summary-number">
+            @if($user->is_admin)
+                {{ \App\Models\Category::count() }}
+            @else
+                {{ count($categories) }}
+            @endif
+        </div>
+        <div class="summary-label">Categories</div>
+    </div>
+    <div class="summary-card">
+        <div class="summary-number">
+            @if($user->is_admin)
+                {{ \App\Models\Brand::count() }}
+            @else
+                {{ count($brands) }}
+            @endif
+        </div>
+        <div class="summary-label">Brands</div>
+    </div>
+</div>
+
+<!-- Charts Section -->
+<div style="max-width: 900px; margin: 3rem auto; display: flex; gap: 2rem; flex-wrap: wrap; justify-content: center;">
+    <div style="flex: 1 1 400px; background: #fff; border-radius: 16px; padding: 1.5rem; box-shadow: 0 4px 12px rgba(0,0,0,0.08); transition: transform 0.3s ease, box-shadow 0.3s ease;"
+         onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 6px 20px rgba(0,0,0,0.15)';"
+         onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.08)';">
+        <h4 style="text-align:center; margin-bottom:1rem; color:#2d3748;">📊 Summary Bar Chart</h4>
+        <canvas id="barChart"></canvas>
+    </div>
+
+    <div style="flex: 1 1 300px; background: #fff; border-radius: 16px; padding: 1.5rem; box-shadow: 0 4px 12px rgba(0,0,0,0.08); transition: transform 0.3s ease, box-shadow 0.3s ease;"
+         onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 6px 20px rgba(0,0,0,0.15)';"
+         onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.08)';">
+        <h4 style="text-align:center; margin-bottom:1rem; color:#2d3748;">🥧 Summary Pie Chart</h4>
+        <canvas id="pieChart"></canvas>
+    </div>
+</div>
+
+
         @else
             <div class="personal-dashboard">
                 <h2 class="section-title">📊 Your Personal Dashboard</h2>
@@ -756,6 +875,50 @@
         @endif
     </div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    // Grab summary values from blade
+    const items = {{ $user->is_admin ? \App\Models\Item::count() : count($items) }};
+    const categories = {{ $user->is_admin ? \App\Models\Category::count() : count($categories) }};
+    const brands = {{ $user->is_admin ? \App\Models\Brand::count() : count($brands) }};
+
+    // Bar Chart
+    new Chart(document.getElementById('barChart'), {
+        type: 'bar',
+        data: {
+            labels: ['Items', 'Categories', 'Brands'],
+            datasets: [{
+                label: 'Counts',
+                data: [items, categories, brands],
+                backgroundColor: ['#FF8C00', '#00BFFF', '#32CD32']
+            }]
+        },
+        
+        options: {
+            responsive: true,
+            scales: {
+                y: { beginAtZero: true }
+            }
+        }
+    });
+
+    // Pie Chart
+    new Chart(document.getElementById('pieChart'), {
+        type: 'pie',
+        data: {
+            labels: ['Items', 'Categories', 'Brands'],
+            datasets: [{
+                data: [items, categories, brands],
+                backgroundColor: ['#FF8C00', '#00BFFF', '#32CD32']
+            }]
+        },
+        options: { responsive: true }
+    });
+});
+</script>
+
 
 <script>
 function showUserTab(evt, tabName) {
@@ -781,5 +944,6 @@ function showUserTab(evt, tabName) {
     evt.target.classList.add('active');
 }
 </script>
-
+ 
+ 
 @endsection
