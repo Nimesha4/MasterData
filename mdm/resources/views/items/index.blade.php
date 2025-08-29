@@ -4,7 +4,7 @@
 @section('content')
 <style>
     .items-container {
-        background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+        background: linear-gradient(135deg, #FF8C00 0%, rgba(255, 140, 0, 0.8) 10%, #f8fafc 90%);
         min-height: 100vh;
         padding: 2rem 0;
     }
