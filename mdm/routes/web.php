@@ -22,7 +22,9 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
    
+    Route::get('brands/export', [BrandController::class, 'export'])->name('brands.export');
     Route::resource('brands', BrandController::class)->middleware('auth');
+    Route::get('categories/export', [CategoryController::class, 'export'])->name('categories.export');
     Route::resource('categories', CategoryController::class)->middleware('auth');
     Route::get('items/export', [ItemController::class, 'export'])->name('items.export');
     Route::resource('items', ItemController::class)->middleware('auth');

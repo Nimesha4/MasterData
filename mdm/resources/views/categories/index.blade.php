@@ -478,12 +478,37 @@
             <div class="categories-count">
                 Manage your product categories
             </div>
+            <form method="GET" action="{{ route('categories.index') }}" style="display:flex;gap:1rem;align-items:center;">
+                <input type="text" name="search" value="{{ request('search') }}" placeholder="Search..." style="padding:0.35rem 0.7rem;border-radius:8px;border:1px solid #e2e8f0;font-size:0.8rem;">
+                <button type="submit" class="btn-add" style="padding:0.35rem 0.8rem;font-size:0.8rem;position:relative;z-index:1;">Search</button>
+                <style>
+                .action-header form .btn-add::before { content: none !important; }
+                </style>
+            </form>
+            <div style="display:flex;gap:0.5rem;">
+                <a href="{{ route('categories.export', array_merge(request()->all(), ['type'=>'csv'])) }}" class="btn-add" style="background:linear-gradient(135deg,#4299e1,#63b3ed);padding:0.35rem 0.8rem;font-size:0.8rem;"><span style="font-size:1em;">⬇️</span> Export CSV</a>
+                <a href="{{ route('categories.export', array_merge(request()->all(), ['type'=>'pdf'])) }}" class="btn-add" style="background:linear-gradient(135deg,#38a169,#68d391);padding:0.35rem 0.8rem;font-size:0.8rem;"><span style="font-size:1em;">📄</span> Export PDF</a>
+            </div>
             @if(!auth()->user()->is_admin)
-            <a href="{{ route('categories.create') }}" class="btn-add">
-                Add New Category
-            </a>
+                <a href="{{ route('categories.create') }}" class="btn-add" style="padding:0.35rem 0.8rem;font-size:0.8rem;">
+                    Add New Category
+                </a>
             @endif
         </div>
+        @if(session('success'))
+            <div class="alert alert-success" style="background:#d1fae5;color:#065f46;padding:1rem;border-radius:8px;margin-bottom:1rem;">
+                {{ session('success') }}
+            </div>
+        @endif
+        @if($errors->any())
+            <div class="alert alert-danger" style="background:#fee2e2;color:#991b1b;padding:1rem;border-radius:8px;margin-bottom:1rem;">
+                <ul style="margin:0;padding-left:1.2em;">
+                    @foreach($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
         
         @if($categories->count() > 0)
             <div class="categories-table-container">
