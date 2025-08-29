@@ -484,9 +484,16 @@
         @if($user->is_admin)
             <h2 class="section-title">Dashboard Overview – Track, Analyze & Manage Data at a Glance</h2>
             
+            @php
+                $userCardsPerPage = 3;
+                $userPage = request()->query('user_page', 1);
+                $nonAdminUsers = $users->filter(function($u) { return !$u->is_admin; })->values();
+                $userTotal = $nonAdminUsers->count();
+                $userTotalPages = (int) ceil($userTotal / $userCardsPerPage);
+                $userSlice = $nonAdminUsers->slice(($userPage-1)*$userCardsPerPage, $userCardsPerPage);
+            @endphp
             <div class="users-grid">
-                @foreach($users as $u)
-                @if(!$u->is_admin)
+                @foreach($userSlice as $u)
                     <div class="user-card">
                         <div class="user-header">
                             <div class="user-avatar">
@@ -494,7 +501,6 @@
                             </div>
                             <h3 class="user-name">{{ $u->name }}</h3>
                             <div class="user-email">{{ $u->email }}</div>
-                            
                             <div class="user-stats">
                                 <div class="stat-box">
                                     <span class="stat-number">{{ count($u->brands) }}</span>
@@ -510,7 +516,6 @@
                                 </div>
                             </div>
                         </div>
-                        
                         <div class="user-content">
                             <div class="content-tabs">
                                 <button class="tab-btn active" onclick="showUserTab(event, 'brands-{{ $u->id }}')">
@@ -523,9 +528,15 @@
                                     Items
                                 </button>
                             </div>
-                            
                             <div id="brands-{{ $u->id }}" class="tab-content active">
-                                @if(count($u->brands) > 0)
+                                @php
+                                    $brandsPerPage = 3;
+                                    $brandsPage = request()->query('brands_page_'.$u->id, 1);
+                                    $brandsTotal = count($u->brands);
+                                    $brandsTotalPages = (int) ceil($brandsTotal / $brandsPerPage);
+                                    $brandsSlice = collect($u->brands)->slice(($brandsPage-1)*$brandsPerPage, $brandsPerPage);
+                                @endphp
+                                @if($brandsTotal > 0)
                                     <table class="data-table">
                                         <thead>
                                             <tr>
@@ -535,7 +546,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach($u->brands as $brand)
+                                            @foreach($brandsSlice as $brand)
                                                 <tr>
                                                     <td>
                                                         <div class="item-name">{{ $brand->name }}</div>
@@ -559,6 +570,31 @@
                                             @endforeach
                                         </tbody>
                                     </table>
+                                    @if($brandsTotalPages > 1)
+                                    <div style="display:flex;justify-content:center;margin:1rem 0;gap:0.5rem;">
+                                        <nav aria-label="Brands pagination">
+                                            <ul style="display:flex;list-style:none;padding:0;margin:0;gap:0.5rem;">
+                                                <li>
+                                                    <a href="?brands_page_{{ $u->id }}=1" style="padding:0.3rem 0.7rem;border-radius:6px;border:1px solid #FF8C00;color:#FF8C00;text-decoration:none;{{ $brandsPage==1?'background:#FF8C00;color:white;':'' }}">First</a>
+                                                </li>
+                                                <li>
+                                                    <a href="?brands_page_{{ $u->id }}={{ max(1,$brandsPage-1) }}" style="padding:0.3rem 0.7rem;border-radius:6px;border:1px solid #FF8C00;color:#FF8C00;text-decoration:none;{{ $brandsPage==1?'opacity:0.5;pointer-events:none;':'' }}">Prev</a>
+                                                </li>
+                                                @for($i=1;$i<=$brandsTotalPages;$i++)
+                                                <li>
+                                                    <a href="?brands_page_{{ $u->id }}={{ $i }}" style="padding:0.3rem 0.7rem;border-radius:6px;border:1px solid #FF8C00;color:#FF8C00;text-decoration:none;{{ $brandsPage==$i?'background:#FF8C00;color:white;':'' }}">{{ $i }}</a>
+                                                </li>
+                                                @endfor
+                                                <li>
+                                                    <a href="?brands_page_{{ $u->id }}={{ min($brandsTotalPages,$brandsPage+1) }}" style="padding:0.3rem 0.7rem;border-radius:6px;border:1px solid #FF8C00;color:#FF8C00;text-decoration:none;{{ $brandsPage==$brandsTotalPages?'opacity:0.5;pointer-events:none;':'' }}">Next</a>
+                                                </li>
+                                                <li>
+                                                    <a href="?brands_page_{{ $u->id }}={{ $brandsTotalPages }}" style="padding:0.3rem 0.7rem;border-radius:6px;border:1px solid #FF8C00;color:#FF8C00;text-decoration:none;{{ $brandsPage==$brandsTotalPages?'background:#FF8C00;color:white;':'' }}">Last</a>
+                                                </li>
+                                            </ul>
+                                        </nav>
+                                    </div>
+                                    @endif
                                 @else
                                     <div class="empty-state">
                                         <div class="empty-icon">📦</div>
@@ -566,9 +602,15 @@
                                     </div>
                                 @endif
                             </div>
-                            
                             <div id="categories-{{ $u->id }}" class="tab-content">
-                                @if(count($u->categories) > 0)
+                                @php
+                                    $categoriesPerPage = 3;
+                                    $categoriesPage = request()->query('categories_page_' . $u->id, 1);
+                                    $categoriesTotal = count($u->categories);
+                                    $categoriesTotalPages = (int) ceil($categoriesTotal / $categoriesPerPage);
+                                    $categoriesSlice = collect($u->categories)->slice(($categoriesPage-1)*$categoriesPerPage, $categoriesPerPage);
+                                @endphp
+                                @if($categoriesTotal > 0)
                                     <table class="data-table">
                                         <thead>
                                             <tr>
@@ -578,7 +620,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach($u->categories as $category)
+                                            @foreach($categoriesSlice as $category)
                                                 <tr>
                                                     <td>
                                                         <div class="item-name">{{ $category->name }}</div>
@@ -602,6 +644,31 @@
                                             @endforeach
                                         </tbody>
                                     </table>
+                                    @if($categoriesTotalPages > 1)
+                                    <div style="display:flex;justify-content:center;margin:1rem 0;gap:0.5rem;">
+                                        <nav aria-label="Categories pagination">
+                                            <ul style="display:flex;list-style:none;padding:0;margin:0;gap:0.5rem;">
+                                                <li>
+                                                    <a href="?categories_page_{{ $u->id }}=1" style="padding:0.3rem 0.7rem;border-radius:6px;border:1px solid #FF8C00;color:#FF8C00;text-decoration:none;{{ $categoriesPage==1?'background:#FF8C00;color:white;':'' }}">First</a>
+                                                </li>
+                                                <li>
+                                                    <a href="?categories_page_{{ $u->id }}={{ max(1,$categoriesPage-1) }}" style="padding:0.3rem 0.7rem;border-radius:6px;border:1px solid #FF8C00;color:#FF8C00;text-decoration:none;{{ $categoriesPage==1?'opacity:0.5;pointer-events:none;':'' }}">Prev</a>
+                                                </li>
+                                                @for($i=1;$i<=$categoriesTotalPages;$i++)
+                                                <li>
+                                                    <a href="?categories_page_{{ $u->id }}={{ $i }}" style="padding:0.3rem 0.7rem;border-radius:6px;border:1px solid #FF8C00;color:#FF8C00;text-decoration:none;{{ $categoriesPage==$i?'background:#FF8C00;color:white;':'' }}">{{ $i }}</a>
+                                                </li>
+                                                @endfor
+                                                <li>
+                                                    <a href="?categories_page_{{ $u->id }}={{ min($categoriesTotalPages,$categoriesPage+1) }}" style="padding:0.3rem 0.7rem;border-radius:6px;border:1px solid #FF8C00;color:#FF8C00;text-decoration:none;{{ $categoriesPage==$categoriesTotalPages?'opacity:0.5;pointer-events:none;':'' }}">Next</a>
+                                                </li>
+                                                <li>
+                                                    <a href="?categories_page_{{ $u->id }}={{ $categoriesTotalPages }}" style="padding:0.3rem 0.7rem;border-radius:6px;border:1px solid #FF8C00;color:#FF8C00;text-decoration:none;{{ $categoriesPage==$categoriesTotalPages?'background:#FF8C00;color:white;':'' }}">Last</a>
+                                                </li>
+                                            </ul>
+                                        </nav>
+                                    </div>
+                                    @endif
                                 @else
                                     <div class="empty-state">
                                         <div class="empty-icon">📁</div>
@@ -609,9 +676,15 @@
                                     </div>
                                 @endif
                             </div>
-                            
                             <div id="items-{{ $u->id }}" class="tab-content">
-                                @if(count($u->items) > 0)
+                                @php
+                                    $itemsPerPage = 3;
+                                    $itemsPage = request()->query('items_page_' . $u->id, 1);
+                                    $itemsTotal = count($u->items);
+                                    $itemsTotalPages = (int) ceil($itemsTotal / $itemsPerPage);
+                                    $itemsSlice = collect($u->items)->slice(($itemsPage-1)*$itemsPerPage, $itemsPerPage);
+                                @endphp
+                                @if($itemsTotal > 0)
                                     <table class="data-table">
                                         <thead>
                                             <tr>
@@ -621,7 +694,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach($u->items as $item)
+                                            @foreach($itemsSlice as $item)
                                                 <tr>
                                                     <td>
                                                         <div class="item-name">{{ $item->name }}</div>
@@ -645,6 +718,31 @@
                                             @endforeach
                                         </tbody>
                                     </table>
+                                    @if($itemsTotalPages > 1)
+                                    <div style="display:flex;justify-content:center;margin:1rem 0;gap:0.5rem;">
+                                        <nav aria-label="Items pagination">
+                                            <ul style="display:flex;list-style:none;padding:0;margin:0;gap:0.5rem;">
+                                                <li>
+                                                    <a href="?items_page_{{ $u->id }}=1" style="padding:0.3rem 0.7rem;border-radius:6px;border:1px solid #FF8C00;color:#FF8C00;text-decoration:none;{{ $itemsPage==1?'background:#FF8C00;color:white;':'' }}">First</a>
+                                                </li>
+                                                <li>
+                                                    <a href="?items_page_{{ $u->id }}={{ max(1,$itemsPage-1) }}" style="padding:0.3rem 0.7rem;border-radius:6px;border:1px solid #FF8C00;color:#FF8C00;text-decoration:none;{{ $itemsPage==1?'opacity:0.5;pointer-events:none;':'' }}">Prev</a>
+                                                </li>
+                                                @for($i=1;$i<=$itemsTotalPages;$i++)
+                                                <li>
+                                                    <a href="?items_page_{{ $u->id }}={{ $i }}" style="padding:0.3rem 0.7rem;border-radius:6px;border:1px solid #FF8C00;color:#FF8C00;text-decoration:none;{{ $itemsPage==$i?'background:#FF8C00;color:white;':'' }}">{{ $i }}</a>
+                                                </li>
+                                                @endfor
+                                                <li>
+                                                    <a href="?items_page_{{ $u->id }}={{ min($itemsTotalPages,$itemsPage+1) }}" style="padding:0.3rem 0.7rem;border-radius:6px;border:1px solid #FF8C00;color:#FF8C00;text-decoration:none;{{ $itemsPage==$itemsTotalPages?'opacity:0.5;pointer-events:none;':'' }}">Next</a>
+                                                </li>
+                                                <li>
+                                                    <a href="?items_page_{{ $u->id }}={{ $itemsTotalPages }}" style="padding:0.3rem 0.7rem;border-radius:6px;border:1px solid #FF8C00;color:#FF8C00;text-decoration:none;{{ $itemsPage==$itemsTotalPages?'background:#FF8C00;color:white;':'' }}">Last</a>
+                                                </li>
+                                            </ul>
+                                        </nav>
+                                    </div>
+                                    @endif
                                 @else
                                     <div class="empty-state">
                                         <div class="empty-icon">📋</div>
@@ -654,9 +752,35 @@
                             </div>
                         </div>
                     </div>
-                @endif
                 @endforeach
             </div>
+            @if($userTotalPages > 1)
+            <div style="display:flex;justify-content:center;margin:2rem 0;gap:0.5rem;">
+                <div style="background:#fff;padding:1.2rem 2rem;border-radius:14px;box-shadow:0 4px 16px rgba(0,0,0,0.08);display:inline-block;">
+                    <nav aria-label="User cards pagination">
+                        <ul style="display:flex;list-style:none;padding:0;margin:0;gap:0.5rem;">
+                            <li>
+                                <a href="?user_page=1" style="padding:0.4rem 1rem;border-radius:6px;border:1px solid #FF8C00;color:#FF8C00;text-decoration:none;{{ $userPage==1?'background:#FF8C00;color:white;':'' }}">First</a>
+                            </li>
+                            <li>
+                                <a href="?user_page={{ max(1,$userPage-1) }}" style="padding:0.4rem 1rem;border-radius:6px;border:1px solid #FF8C00;color:#FF8C00;text-decoration:none;{{ $userPage==1?'opacity:0.5;pointer-events:none;':'' }}">Prev</a>
+                            </li>
+                            @for($i=1;$i<=$userTotalPages;$i++)
+                            <li>
+                                <a href="?user_page={{ $i }}" style="padding:0.4rem 1rem;border-radius:6px;border:1px solid #FF8C00;color:#FF8C00;text-decoration:none;{{ $userPage==$i?'background:#FF8C00;color:white;':'' }}">{{ $i }}</a>
+                            </li>
+                            @endfor
+                            <li>
+                                <a href="?user_page={{ min($userTotalPages,$userPage+1) }}" style="padding:0.4rem 1rem;border-radius:6px;border:1px solid #FF8C00;color:#FF8C00;text-decoration:none;{{ $userPage==$userTotalPages?'opacity:0.5;pointer-events:none;':'' }}">Next</a>
+                            </li>
+                            <li>
+                                <a href="?user_page={{ $userTotalPages }}" style="padding:0.4rem 1rem;border-radius:6px;border:1px solid #FF8C00;color:#FF8C00;text-decoration:none;{{ $userPage==$userTotalPages?'background:#FF8C00;color:white;':'' }}">Last</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+            @endif
                 <!-- Additional Pictures Section: Displayed after all user cards -->
               <div class="image-row">
     <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb" alt="Nature 1">
@@ -722,7 +846,7 @@
         @else
             <div class="personal-dashboard">
                 <h2 class="section-title">📊 Your Personal Dashboard</h2>
-                
+
                 <div class="personal-grid">
                     <div class="personal-card">
                         <div class="personal-header">
@@ -730,7 +854,14 @@
                             <div class="personal-count">{{ count($brands) }} total brands</div>
                         </div>
                         <div class="tab-content active">
-                            @if(count($brands) > 0)
+                            @php
+                                $brandsPerPage = 3;
+                                $brandsPage = request()->query('my_brands_page', 1);
+                                $brandsTotal = count($brands);
+                                $brandsTotalPages = (int) ceil($brandsTotal / $brandsPerPage);
+                                $brandsSlice = collect($brands)->slice(($brandsPage-1)*$brandsPerPage, $brandsPerPage);
+                            @endphp
+                            @if($brandsTotal > 0)
                                 <table class="data-table">
                                     <thead>
                                         <tr>
@@ -740,7 +871,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach($brands as $brand)
+                                        @foreach($brandsSlice as $brand)
                                             <tr>
                                                 <td>
                                                     <div class="item-name">{{ $brand->name }}</div>
@@ -764,6 +895,31 @@
                                         @endforeach
                                     </tbody>
                                 </table>
+                                @if($brandsTotalPages > 1)
+                                <div style="display:flex;justify-content:center;margin:1rem 0;gap:0.5rem;">
+                                    <nav aria-label="Brands pagination">
+                                        <ul style="display:flex;list-style:none;padding:0;margin:0;gap:0.5rem;">
+                                            <li>
+                                                <a href="?my_brands_page=1" style="padding:0.3rem 0.7rem;border-radius:6px;border:1px solid #FF8C00;color:#FF8C00;text-decoration:none;{{ $brandsPage==1?'background:#FF8C00;color:white;':'' }}">First</a>
+                                            </li>
+                                            <li>
+                                                <a href="?my_brands_page={{ max(1,$brandsPage-1) }}" style="padding:0.3rem 0.7rem;border-radius:6px;border:1px solid #FF8C00;color:#FF8C00;text-decoration:none;{{ $brandsPage==1?'opacity:0.5;pointer-events:none;':'' }}">Prev</a>
+                                            </li>
+                                            @for($i=1;$i<=$brandsTotalPages;$i++)
+                                            <li>
+                                                <a href="?my_brands_page={{ $i }}" style="padding:0.3rem 0.7rem;border-radius:6px;border:1px solid #FF8C00;color:#FF8C00;text-decoration:none;{{ $brandsPage==$i?'background:#FF8C00;color:white;':'' }}">{{ $i }}</a>
+                                            </li>
+                                            @endfor
+                                            <li>
+                                                <a href="?my_brands_page={{ min($brandsTotalPages,$brandsPage+1) }}" style="padding:0.3rem 0.7rem;border-radius:6px;border:1px solid #FF8C00;color:#FF8C00;text-decoration:none;{{ $brandsPage==$brandsTotalPages?'opacity:0.5;pointer-events:none;':'' }}">Next</a>
+                                            </li>
+                                            <li>
+                                                <a href="?my_brands_page={{ $brandsTotalPages }}" style="padding:0.3rem 0.7rem;border-radius:6px;border:1px solid #FF8C00;color:#FF8C00;text-decoration:none;{{ $brandsPage==$brandsTotalPages?'background:#FF8C00;color:white;':'' }}">Last</a>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                </div>
+                                @endif
                             @else
                                 <div class="empty-state">
                                     <div class="empty-icon">📦</div>
@@ -772,14 +928,21 @@
                             @endif
                         </div>
                     </div>
-                    
+
                     <div class="personal-card">
                         <div class="personal-header">
                             <h3 class="personal-title">Your Categories</h3>
                             <div class="personal-count">{{ count($categories) }} total categories</div>
                         </div>
                         <div class="tab-content active">
-                            @if(count($categories) > 0)
+                            @php
+                                $categoriesPerPage = 3;
+                                $categoriesPage = request()->query('my_categories_page', 1);
+                                $categoriesTotal = count($categories);
+                                $categoriesTotalPages = (int) ceil($categoriesTotal / $categoriesPerPage);
+                                $categoriesSlice = collect($categories)->slice(($categoriesPage-1)*$categoriesPerPage, $categoriesPerPage);
+                            @endphp
+                            @if($categoriesTotal > 0)
                                 <table class="data-table">
                                     <thead>
                                         <tr>
@@ -789,7 +952,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach($categories as $category)
+                                        @foreach($categoriesSlice as $category)
                                             <tr>
                                                 <td>
                                                     <div class="item-name">{{ $category->name }}</div>
@@ -813,6 +976,31 @@
                                         @endforeach
                                     </tbody>
                                 </table>
+                                @if($categoriesTotalPages > 1)
+                                <div style="display:flex;justify-content:center;margin:1rem 0;gap:0.5rem;">
+                                    <nav aria-label="Categories pagination">
+                                        <ul style="display:flex;list-style:none;padding:0;margin:0;gap:0.5rem;">
+                                            <li>
+                                                <a href="?my_categories_page=1" style="padding:0.3rem 0.7rem;border-radius:6px;border:1px solid #FF8C00;color:#FF8C00;text-decoration:none;{{ $categoriesPage==1?'background:#FF8C00;color:white;':'' }}">First</a>
+                                            </li>
+                                            <li>
+                                                <a href="?my_categories_page={{ max(1,$categoriesPage-1) }}" style="padding:0.3rem 0.7rem;border-radius:6px;border:1px solid #FF8C00;color:#FF8C00;text-decoration:none;{{ $categoriesPage==1?'opacity:0.5;pointer-events:none;':'' }}">Prev</a>
+                                            </li>
+                                            @for($i=1;$i<=$categoriesTotalPages;$i++)
+                                            <li>
+                                                <a href="?my_categories_page={{ $i }}" style="padding:0.3rem 0.7rem;border-radius:6px;border:1px solid #FF8C00;color:#FF8C00;text-decoration:none;{{ $categoriesPage==$i?'background:#FF8C00;color:white;':'' }}">{{ $i }}</a>
+                                            </li>
+                                            @endfor
+                                            <li>
+                                                <a href="?my_categories_page={{ min($categoriesTotalPages,$categoriesPage+1) }}" style="padding:0.3rem 0.7rem;border-radius:6px;border:1px solid #FF8C00;color:#FF8C00;text-decoration:none;{{ $categoriesPage==$categoriesTotalPages?'opacity:0.5;pointer-events:none;':'' }}">Next</a>
+                                            </li>
+                                            <li>
+                                                <a href="?my_categories_page={{ $categoriesTotalPages }}" style="padding:0.3rem 0.7rem;border-radius:6px;border:1px solid #FF8C00;color:#FF8C00;text-decoration:none;{{ $categoriesPage==$categoriesTotalPages?'background:#FF8C00;color:white;':'' }}">Last</a>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                </div>
+                                @endif
                             @else
                                 <div class="empty-state">
                                     <div class="empty-icon">📁</div>
@@ -821,14 +1009,21 @@
                             @endif
                         </div>
                     </div>
-                    
+
                     <div class="personal-card">
                         <div class="personal-header">
                             <h3 class="personal-title">Your Items</h3>
                             <div class="personal-count">{{ count($items) }} total items</div>
                         </div>
                         <div class="tab-content active">
-                            @if(count($items) > 0)
+                            @php
+                                $itemsPerPage = 3;
+                                $itemsPage = request()->query('my_items_page', 1);
+                                $itemsTotal = count($items);
+                                $itemsTotalPages = (int) ceil($itemsTotal / $itemsPerPage);
+                                $itemsSlice = collect($items)->slice(($itemsPage-1)*$itemsPerPage, $itemsPerPage);
+                            @endphp
+                            @if($itemsTotal > 0)
                                 <table class="data-table">
                                     <thead>
                                         <tr>
@@ -838,7 +1033,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach($items as $item)
+                                        @foreach($itemsSlice as $item)
                                             <tr>
                                                 <td>
                                                     <div class="item-name">{{ $item->name }}</div>
@@ -862,6 +1057,31 @@
                                         @endforeach
                                     </tbody>
                                 </table>
+                                @if($itemsTotalPages > 1)
+                                <div style="display:flex;justify-content:center;margin:1rem 0;gap:0.5rem;">
+                                    <nav aria-label="Items pagination">
+                                        <ul style="display:flex;list-style:none;padding:0;margin:0;gap:0.5rem;">
+                                            <li>
+                                                <a href="?my_items_page=1" style="padding:0.3rem 0.7rem;border-radius:6px;border:1px solid #FF8C00;color:#FF8C00;text-decoration:none;{{ $itemsPage==1?'background:#FF8C00;color:white;':'' }}">First</a>
+                                            </li>
+                                            <li>
+                                                <a href="?my_items_page={{ max(1,$itemsPage-1) }}" style="padding:0.3rem 0.7rem;border-radius:6px;border:1px solid #FF8C00;color:#FF8C00;text-decoration:none;{{ $itemsPage==1?'opacity:0.5;pointer-events:none;':'' }}">Prev</a>
+                                            </li>
+                                            @for($i=1;$i<=$itemsTotalPages;$i++)
+                                            <li>
+                                                <a href="?my_items_page={{ $i }}" style="padding:0.3rem 0.7rem;border-radius:6px;border:1px solid #FF8C00;color:#FF8C00;text-decoration:none;{{ $itemsPage==$i?'background:#FF8C00;color:white;':'' }}">{{ $i }}</a>
+                                            </li>
+                                            @endfor
+                                            <li>
+                                                <a href="?my_items_page={{ min($itemsTotalPages,$itemsPage+1) }}" style="padding:0.3rem 0.7rem;border-radius:6px;border:1px solid #FF8C00;color:#FF8C00;text-decoration:none;{{ $itemsPage==$itemsTotalPages?'opacity:0.5;pointer-events:none;':'' }}">Next</a>
+                                            </li>
+                                            <li>
+                                                <a href="?my_items_page={{ $itemsTotalPages }}" style="padding:0.3rem 0.7rem;border-radius:6px;border:1px solid #FF8C00;color:#FF8C00;text-decoration:none;{{ $itemsPage==$itemsTotalPages?'background:#FF8C00;color:white;':'' }}">Last</a>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                </div>
+                                @endif
                             @else
                                 <div class="empty-state">
                                     <div class="empty-icon">📋</div>
@@ -869,6 +1089,45 @@
                                 </div>
                             @endif
                         </div>
+                    </div>
+                </div>
+
+                <!-- Additional Pictures Section: Displayed after all personal cards -->
+                <div class="image-row">
+                    <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb" alt="Nature 1">
+                    <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e" alt="Nature 2">
+                    <img src="https://images.unsplash.com/photo-1493244040629-496f6d136cc3" alt="Nature 3">
+                </div>
+
+                <!-- Summary Row: Replaces image-row -->
+                <div class="summary-row">
+                    <div class="summary-card">
+                        <div class="summary-number">{{ count($items) }}</div>
+                        <div class="summary-label">Items</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-number">{{ count($categories) }}</div>
+                        <div class="summary-label">Categories</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-number">{{ count($brands) }}</div>
+                        <div class="summary-label">Brands</div>
+                    </div>
+                </div>
+
+                <!-- Charts Section -->
+                <div style="max-width: 900px; margin: 3rem auto; display: flex; gap: 2rem; flex-wrap: wrap; justify-content: center;">
+                    <div style="flex: 1 1 400px; background: #fff; border-radius: 16px; padding: 1.5rem; box-shadow: 0 4px 12px rgba(0,0,0,0.08); transition: transform 0.3s ease, box-shadow 0.3s ease;"
+                        onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 6px 20px rgba(0,0,0,0.15)';"
+                        onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.08)';">
+                        <h4 style="text-align:center; margin-bottom:1rem; color:#2d3748;">📊 Summary Bar Chart</h4>
+                        <canvas id="barChart"></canvas>
+                    </div>
+                    <div style="flex: 1 1 300px; background: #fff; border-radius: 16px; padding: 1.5rem; box-shadow: 0 4px 12px rgba(0,0,0,0.08); transition: transform 0.3s ease, box-shadow 0.3s ease;"
+                        onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 6px 20px rgba(0,0,0,0.15)';"
+                        onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.08)';">
+                        <h4 style="text-align:center; margin-bottom:1rem; color:#2d3748;">🥧 Summary Pie Chart</h4>
+                        <canvas id="pieChart"></canvas>
                     </div>
                 </div>
             </div>
