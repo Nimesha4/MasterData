@@ -158,7 +158,7 @@
         padding: 1.25rem 1rem;
         text-align: left;
         font-weight: 600;
-        color: #FF8C00;
+        color: black;
         font-size: 0.8rem;
         text-transform: uppercase;
         letter-spacing: 0.05em;
