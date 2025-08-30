@@ -35,7 +35,7 @@
 
         .image-section {
             background: linear-gradient(rgba(255, 140, 0, 0.5), rgba(255, 140, 0, 0.2)),
-                        url('https://images.pexels.com/photos/994605/pexels-photo-994605.jpeg') no-repeat center center;
+                        url('https://www.mjmfurniture.com/cdn/shop/files/new_arrivals_mjm_furniture_a21eb6e3-eef8-4bf4-8f9a-f2191489ac8e_1600x.jpg?v=1747941448') no-repeat center center;
             background-size: cover;
             display: flex;
             flex-direction: column;

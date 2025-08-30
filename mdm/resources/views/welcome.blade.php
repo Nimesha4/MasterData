@@ -36,7 +36,7 @@
         
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            background: linear-gradient(135deg, #FF8C00 0%, rgba(255, 140, 0, 0.8) 10%, #f8fafc 90%);
             min-height: 100vh;
             color: var(--gray-800);
             line-height: 1.6;
@@ -51,7 +51,7 @@
             width: 100%;
             height: 100%;
             z-index: -1;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            background: linear-gradient(135deg, #FF8C00 0%, rgba(255, 140, 0, 0.8) 10%, #f8fafc 90%);
         }
 
         .bg-animation::before {
@@ -84,8 +84,8 @@
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(20px);
             border-radius: 0 0 24px 24px;
-            padding: 20px 40px;
-            margin: 20px -20px 0;
+            padding: 10px 32px;
+            margin: 20px  0;
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.2);
             position: relative;
@@ -640,33 +640,33 @@
                 </div>
 
                 <div class="hero-text">
-                    <h1>Streamline Your Brand Management</h1>
-                    <p class="subtitle">Take control of your entire product ecosystem with BrandHub's comprehensive management platform. From brands to categories to individual items - manage it all in one place.</p>
+                    <h1>MasterData Management Portal</h1>
+                    <p class="subtitle">Easily manage brands, categories, and items in one unified platform. Designed for efficiency, collaboration, and control over your master data assets.</p>
                     
                     <div class="features-grid">
                         <div class="feature-item">
                             <div class="feature-icon">🏢</div>
-                            <span class="feature-text">Multi-Brand Management</span>
+                            <span class="feature-text">Centralized Brand Management</span>
                         </div>
                         <div class="feature-item">
                             <div class="feature-icon">📁</div>
-                            <span class="feature-text">Smart Categorization</span>
+                            <span class="feature-text">Category Organization</span>
                         </div>
                         <div class="feature-item">
                             <div class="feature-icon">📦</div>
-                            <span class="feature-text">Product Inventory</span>
+                            <span class="feature-text">Item & Product Tracking</span>
                         </div>
                         <div class="feature-item">
                             <div class="feature-icon">⚡</div>
-                            <span class="feature-text">Real-time Updates</span>
+                            <span class="feature-text">Instant Data Updates</span>
                         </div>
                         <div class="feature-item">
                             <div class="feature-icon">👥</div>
-                            <span class="feature-text">Team Collaboration</span>
+                            <span class="feature-text">User & Team Roles</span>
                         </div>
                         <div class="feature-item">
                             <div class="feature-icon">🛡️</div>
-                            <span class="feature-text">Admin Controls</span>
+                            <span class="feature-text">Secure Admin Controls</span>
                         </div>
                     </div>
                     
@@ -706,7 +706,7 @@
                         <div class="stats-row">
                             <div class="stat-card">
                                 <div class="stat-number">12</div>
-                                <div class="stat-label">Active Brands</div>
+                                <div class="stat-label">Brands</div>
                             </div>
                             <div class="stat-card">
                                 <div class="stat-number">48</div>
@@ -714,34 +714,34 @@
                             </div>
                             <div class="stat-card">
                                 <div class="stat-number">256</div>
-                                <div class="stat-label">Products</div>
+                                <div class="stat-label">Items</div>
                             </div>
                         </div>
 
                         <ul class="items-list">
                             <li>
                                 <div class="item-icon brand-icon">N</div>
-                                <span>Nike - Athletic Footwear</span>
+                                <span>Brand: Nike - Athletic Footwear</span>
                             </li>
                             <li>
                                 <div class="item-icon brand-icon">A</div>
-                                <span>Apple - Consumer Electronics</span>
+                                <span>Brand: Apple - Consumer Electronics</span>
                             </li>
                             <li>
                                 <div class="item-icon category-icon">👟</div>
-                                <span>Running Shoes Collection</span>
+                                <span>Category: Running Shoes Collection</span>
                             </li>
                             <li>
                                 <div class="item-icon category-icon">📱</div>
-                                <span>Smartphone Accessories</span>
+                                <span>Category: Smartphone Accessories</span>
                             </li>
                             <li>
                                 <div class="item-icon product-icon">🏃</div>
-                                <span>Air Max Pro 2024</span>
+                                <span>Item: Air Max Pro 2024</span>
                             </li>
                             <li>
                                 <div class="item-icon product-icon">🎧</div>
-                                <span>AirPods Pro Max</span>
+                                <span>Item: AirPods Pro Max</span>
                             </li>
                         </ul>
                     </div>
@@ -749,5 +749,6 @@
             </section>
         </main>
     </div>
+    @include('layouts.footer')
 </body>
 </html>

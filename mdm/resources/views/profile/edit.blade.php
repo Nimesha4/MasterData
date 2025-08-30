@@ -81,7 +81,7 @@
 </style>
 <div class="profile-card">
     <h1>Profile</h1>
-    <form class="profile-form" method="POST" action="{{ route('profile.update') }}">
+    <form class="profile-form" method="POST" action="{{ route('profile.update') }}" style="margin-bottom:0;">
         @csrf
         @method('PATCH')
         <div>
@@ -92,16 +92,46 @@
             <label for="email">Email</label>
             <input type="email" id="email" name="email" value="{{ old('email', $user->email) }}" required>
         </div>
-        <div>
+        <div id="password-section" style="display:none;">
             <label for="password">Change Password</label>
             <input type="password" id="password" name="password" autocomplete="new-password">
         </div>
-        <button type="submit">Update Profile</button>
+        <div class="profile-actions" style="display:flex;gap:1rem;align-items:center;justify-content:flex-end;margin-top:1.5rem;">
+            <button type="button" id="show-password-btn">Update Profile</button>
+            <form class="delete-form" method="POST" action="{{ route('profile.destroy') }}" onsubmit="return confirm('Are you sure you want to delete your account?');" style="margin:0;">
+                @csrf
+                @method('DELETE')
+                <button type="submit">Delete Account</button>
+            </form>
+        </div>
+</style>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var showBtn = document.getElementById('show-password-btn');
+        var pwdSection = document.getElementById('password-section');
+        var form = showBtn ? showBtn.closest('form') : null;
+        if(showBtn && pwdSection && form) {
+            let revealed = false;
+            showBtn.addEventListener('click', function(e) {
+                if (!revealed) {
+                    e.preventDefault();
+                    pwdSection.style.display = 'block';
+                    showBtn.textContent = 'Update Profile';
+                    revealed = true;
+                } else {
+                    // Now submit the form
+                    form.submit();
+                }
+            });
+        }
+    });
+</script>
     </form>
-    <form class="delete-form" method="POST" action="{{ route('profile.destroy') }}" onsubmit="return confirm('Are you sure you want to delete your account?');">
-        @csrf
-        @method('DELETE')
-        <button type="submit">Delete Account</button>
-    </form>
+</style>
+<style>
+    .profile-actions form {
+        display: inline;
+    }
+</style>
 </div>
 @endsection

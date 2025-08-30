@@ -45,11 +45,30 @@
         border-radius: 2px;
     }
 
+    
+
     .image-row {
     display: flex;
     justify-content: center;
     gap: 20px; /* space between images */
     margin: 20px 0;
+
+    background: 
+                        url('https://dminteriors.lk/wp-content/uploads/2021/09/Cloth-Shop-Interior-Design-Ideas.jpg') no-repeat center center;
+            background-size: cover;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+            padding: 50px 40px;
+            position: relative;
+            overflow: hidden;
+            min-height: 500px;
+        max-width: 900px;
+        margin-left: auto;
+        margin-right: auto;
 }
 
 .image-row img {
@@ -59,6 +78,40 @@
     border-radius: 12px;
     box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
+
+  .image-row-2 {
+    display: flex;
+    justify-content: center;
+    gap: 20px; /* space between images */
+    margin: 20px 0;
+
+    background: 
+                        url('https://expatliving.sg/wp-content/uploads/2017/05/best-furniture-stores-1.jpg') no-repeat center center;
+            background-size: cover;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+            padding: 50px 40px;
+            position: relative;
+            overflow: hidden;
+            min-height: 500px;
+        max-width: 900px;
+        margin-left: auto;
+        margin-right: auto;
+}
+
+.image-row-2 img {
+    width: 400px;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+
 
 .summary-row {
     display: flex;
@@ -810,14 +863,33 @@
             </div>
             @endif
                 <!-- Additional Pictures Section: Displayed after all user cards -->
-              <div class="image-row">
-    <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb" alt="Nature 1">
-    <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e" alt="Nature 2">
-    <img src="https://images.unsplash.com/photo-1493244040629-496f6d136cc3" alt="Nature 3">
+  <div class="image-row">
+    <!-- Item 1 -->
+    
+    <div class="image-section-1">
+            <div class="welcome-content">
+                <h2>1 img</h2>
+                </div>
+        </div>
+
+    <!-- Item 2 -->
+
+    <div class="image-section-2">
+            <div class="welcome-content">
+                <h2>2 img</h2>
+                </div>
+        </div>
+    
+    <!-- Item 3 -->
+
+    <div class="image-section-3">
+            <div class="welcome-content">
+                <h2>3 img</h2>
+                </div>
+        </div>
+     
 </div>
 
-
-            
 
 <!-- Summary Row: Replaces image-row -->
 <div class="summary-row">
@@ -873,7 +945,7 @@
 
         @else
             <div class="personal-dashboard">
-                <h2 class="section-title">📊 Your Personal Dashboard</h2>
+                <h2 class="section-title"></h2>
 
                 <div class="personal-grid">
                     <div class="personal-card">
@@ -1078,54 +1150,58 @@
                                                             @csrf
                                                             @method('DELETE')
                                                             <button class="btn-action btn-delete">🗑️</button>
-                                                        </form>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                                @if($itemsTotalPages > 1)
-                                <div style="display:flex;justify-content:center;margin:1rem 0;gap:0.5rem;">
-                                    <nav aria-label="Items pagination">
-                                        <ul style="display:flex;list-style:none;padding:0;margin:0;gap:0.5rem;">
-                                            <li>
-                                                <a href="?my_items_page=1" style="padding:0.3rem 0.7rem;border-radius:6px;border:1px solid #FF8C00;color:#FF8C00;text-decoration:none;{{ $itemsPage==1?'background:#FF8C00;color:white;':'' }}">First</a>
-                                            </li>
-                                            <li>
-                                                <a href="?my_items_page={{ max(1,$itemsPage-1) }}" style="padding:0.3rem 0.7rem;border-radius:6px;border:1px solid #FF8C00;color:#FF8C00;text-decoration:none;{{ $itemsPage==1?'opacity:0.5;pointer-events:none;':'' }}">Prev</a>
-                                            </li>
-                                            @for($i=1;$i<=$itemsTotalPages;$i++)
-                                            <li>
-                                                <a href="?my_items_page={{ $i }}" style="padding:0.3rem 0.7rem;border-radius:6px;border:1px solid #FF8C00;color:#FF8C00;text-decoration:none;{{ $itemsPage==$i?'background:#FF8C00;color:white;':'' }}">{{ $i }}</a>
-                                            </li>
-                                            @endfor
-                                            <li>
-                                                <a href="?my_items_page={{ min($itemsTotalPages,$itemsPage+1) }}" style="padding:0.3rem 0.7rem;border-radius:6px;border:1px solid #FF8C00;color:#FF8C00;text-decoration:none;{{ $itemsPage==$itemsTotalPages?'opacity:0.5;pointer-events:none;':'' }}">Next</a>
-                                            </li>
-                                            <li>
-                                                <a href="?my_items_page={{ $itemsTotalPages }}" style="padding:0.3rem 0.7rem;border-radius:6px;border:1px solid #FF8C00;color:#FF8C00;text-decoration:none;{{ $itemsPage==$itemsTotalPages?'background:#FF8C00;color:white;':'' }}">Last</a>
-                                            </li>
-                                        </ul>
-                                    </nav>
-                                </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                    @if($itemsTotalPages > 1)
+                                    <div style="display:flex;justify-content:center;margin:1rem 0;gap:0.5rem;">
+                                        <nav aria-label="Items pagination">
+                                            <ul style="display:flex;list-style:none;padding:0;margin:0;gap:0.5rem;">
+                                                <li>
+                                                    <a href="?my_items_page=1" style="padding:0.3rem 0.7rem;border-radius:6px;border:1px solid #FF8C00;color:#FF8C00;text-decoration:none;{{ $itemsPage==1?'background:#FF8C00;color:white;':'' }}">First</a>
+                                                </li>
+                                                <li>
+                                                    <a href="?my_items_page={{ max(1,$itemsPage-1) }}" style="padding:0.3rem 0.7rem;border-radius:6px;border:1px solid #FF8C00;color:#FF8C00;text-decoration:none;{{ $itemsPage==1?'opacity:0.5;pointer-events:none;':'' }}">Prev</a>
+                                                </li>
+                                                @for($i=1;$i<=$itemsTotalPages;$i++)
+                                                <li>
+                                                    <a href="?my_items_page={{ $i }}" style="padding:0.3rem 0.7rem;border-radius:6px;border:1px solid #FF8C00;color:#FF8C00;text-decoration:none;{{ $itemsPage==$i?'background:#FF8C00;color:white;':'' }}">{{ $i }}</a>
+                                                </li>
+                                                @endfor
+                                                <li>
+                                                    <a href="?my_items_page={{ min($itemsTotalPages,$itemsPage+1) }}" style="padding:0.3rem 0.7rem;border-radius:6px;border:1px solid #FF8C00;color:#FF8C00;text-decoration:none;{{ $itemsPage==$itemsTotalPages?'opacity:0.5;pointer-events:none;':'' }}">Next</a>
+                                                </li>
+                                                <li>
+                                                    <a href="?my_items_page={{ $itemsTotalPages }}" style="padding:0.3rem 0.7rem;border-radius:6px;border:1px solid #FF8C00;color:#FF8C00;text-decoration:none;{{ $itemsPage==$itemsTotalPages?'background:#FF8C00;color:white;':'' }}">Last</a>
+                                                </li>
+                                            </ul>
+                                        </nav>
+                                    </div>
+                                    @endif
+                                @else
+                                    <div class="empty-state">
+                                        <div class="empty-icon">📋</div>
+                                        <div class="empty-text">No items available</div>
+                                    </div>
                                 @endif
-                            @else
-                                <div class="empty-state">
-                                    <div class="empty-icon">📋</div>
-                                    <div class="empty-text">No items available</div>
-                                </div>
-                            @endif
+                            </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Additional Pictures Section: Displayed after all personal cards -->
-                <div class="image-row">
-                    <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb" alt="Nature 1">
-                    <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e" alt="Nature 2">
-                    <img src="https://images.unsplash.com/photo-1493244040629-496f6d136cc3" alt="Nature 3">
-                </div>
+    <div class="image-row">
+  <h1></h1>
+</div>
+
+
+
+
+
+
 
                 <!-- Summary Row: Replaces image-row -->
                 <div class="summary-row">
@@ -1142,6 +1218,10 @@
                         <div class="summary-label">Brands</div>
                     </div>
                 </div>
+
+                <div class="image-row-2">
+  <h1></h1>
+</div>
 
                 <!-- Charts Section -->
                 <div style="max-width: 900px; margin: 3rem auto; display: flex; gap: 2rem; flex-wrap: wrap; justify-content: center;">

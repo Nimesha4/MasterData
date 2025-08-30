@@ -88,7 +88,7 @@
     }
     
     .items-count::before {
-        content: '📋';
+        content: '';
         font-size: 1.2rem;
     }
 
@@ -158,7 +158,7 @@
         padding: 1rem;
         text-align: left;
         font-weight: 600;
-        color: #FF8C00;
+        color: black;
         font-size: 0.8rem;
         text-transform: uppercase;
         letter-spacing: 0.05em;
@@ -187,8 +187,8 @@
     }
     
     .item-id {
-        color: #718096;
-        font-weight: 500;
+        color: #718096 ;
+        font-weight: 700;
         font-family: 'Monaco', 'Menlo', monospace;
         background: rgba(113, 128, 150, 0.1);
         padding: 0.25rem 0.5rem;
@@ -200,30 +200,30 @@
     
     .item-name {
         font-weight: 600;
-        color: #2d3748;
+        color: #4a5568;
         margin-bottom: 0.25rem;
     }
     
     .item-code {
-        color: rgba(255, 140, 0, 0.8);
+        color: #4a5568;
         font-size: 0.75rem;
         font-family: 'Monaco', 'Menlo', monospace;
-        background: rgba(255, 140, 0, 0.1);
-        padding: 0.15rem 0.4rem;
-        border-radius: 3px;
+        background: none;
+        padding: 0;
+        border-radius: 0;
         display: inline-block;
-        border: 1px solid rgba(255, 140, 0, 0.2);
+        border: none;
     }
     
     .brand-tag, .category-tag {
         color: #4a5568;
-        background: linear-gradient(135deg, rgba(74, 85, 104, 0.1) 0%, rgba(74, 85, 104, 0.05) 100%);
-        padding: 0.25rem 0.75rem;
-        border-radius: 12px;
+        background: none;
+        padding: 0;
+        border-radius: 0;
         font-size: 0.75rem;
         font-weight: 500;
         display: inline-block;
-        border: 1px solid rgba(74, 85, 104, 0.2);
+        border: none;
     }
     
     .status-badge {
@@ -510,7 +510,7 @@
 
 <div class="items-container">
     <div class="items-header">
-        <h1 class="page-title">📋 Items Management</h1>
+        <!-- <h1 class="page-title">Items Management</h1> -->
     </div>
 
     <div class="categories-content">
@@ -558,8 +558,8 @@
                 </style>
             </form>
             <div style="display:flex;gap:0.5rem;">
-                <a href="{{ route('items.export', array_merge(request()->all(), ['type'=>'csv'])) }}" class="btn-add" style="background:linear-gradient(135deg,#4299e1,#63b3ed);padding:0.35rem 0.8rem;font-size:0.8rem;"><span style="font-size:1em;">⬇️</span> Export CSV</a>
-                <a href="{{ route('items.export', array_merge(request()->all(), ['type'=>'pdf'])) }}" class="btn-add" style="background:linear-gradient(135deg,#38a169,#68d391);padding:0.35rem 0.8rem;font-size:0.8rem;"><span style="font-size:1em;">📄</span> Export PDF</a>
+                <a href="{{ route('items.export', array_merge(request()->all(), ['type'=>'csv'])) }}" class="btn-add" style="background:linear-gradient(135deg,#4299e1,#63b3ed);padding:0.35rem 0.8rem;font-size:0.8rem;"><span style="font-size:1em;"></span> Export CSV</a>
+                <a href="{{ route('items.export', array_merge(request()->all(), ['type'=>'pdf'])) }}" class="btn-add" style="background:linear-gradient(135deg,#38a169,#68d391);padding:0.35rem 0.8rem;font-size:0.8rem;"><span style="font-size:1em;"></span> Export PDF</a>
             </div>
             @if(!auth()->user()->is_admin)
                 <a href="{{ route('items.create') }}" class="btn-add" style="padding:0.35rem 0.8rem;font-size:0.8rem;">
