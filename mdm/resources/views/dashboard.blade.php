@@ -862,36 +862,14 @@
                 </div>
             </div>
             @endif
-                <!-- Additional Pictures Section: Displayed after all user cards -->
-  <div class="image-row">
-    <!-- Item 1 -->
-    
-    <div class="image-section-1">
-            <div class="welcome-content">
-                <h2>1 img</h2>
-                </div>
+                                <!-- Additional Pictures Section: Displayed after all user cards -->
+
+        <div class="image-row">
+            <h1></h1>
         </div>
 
-    <!-- Item 2 -->
+        <!-- Summary Row: Replaces image-row -->
 
-    <div class="image-section-2">
-            <div class="welcome-content">
-                <h2>2 img</h2>
-                </div>
-        </div>
-    
-    <!-- Item 3 -->
-
-    <div class="image-section-3">
-            <div class="welcome-content">
-                <h2>3 img</h2>
-                </div>
-        </div>
-     
-</div>
-
-
-<!-- Summary Row: Replaces image-row -->
 <div class="summary-row">
     <div class="summary-card">
         <div class="summary-number">
@@ -923,6 +901,11 @@
         </div>
         <div class="summary-label">Brands</div>
     </div>
+</div>
+
+<!-- Show image-row-2 for admin as well -->
+<div class="image-row-2">
+  <h1></h1>
 </div>
 
 <!-- Charts Section -->
@@ -1196,13 +1179,6 @@
     <div class="image-row">
   <h1></h1>
 </div>
-
-
-
-
-
-
-
                 <!-- Summary Row: Replaces image-row -->
                 <div class="summary-row">
                     <div class="summary-card">

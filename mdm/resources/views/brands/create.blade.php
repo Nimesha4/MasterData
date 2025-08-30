@@ -266,7 +266,7 @@
     }
     
     .btn-primary::before {
-        content: '💾';
+        content: '';
         font-size: 1.1rem;
     }
     
@@ -298,7 +298,7 @@
     }
     
     .btn-secondary::before {
-        content: '↩️';
+        content: '';
         font-size: 1.1rem;
     }
     
@@ -404,9 +404,7 @@
 </style>
 
 <div class="form-container">
-    <div class="form-header">
-        <h1 class="page-title">Add New Brand</h1>
-    </div>
+     
     
     <div class="form-content">
         <div class="form-card">
@@ -422,12 +420,12 @@
                     <div class="form-grid">
                         <div class="form-group">
                             <label for="code" class="form-label required">
-                                <span class="label-icon">🔢</span>
+                                <span class="label-icon"></span>
                                 Brand Code
                             </label>
                             <div class="input-wrapper">
                                 <input type="text" name="code" id="code" class="form-input" placeholder="e.g., NIKE001" required>
-                                <span class="form-icon">📋</span>
+                                <span class="form-icon"></span>
                             </div>
                             <div class="field-help">Enter a unique code identifier for this brand</div>
                             <div class="code-preview" id="codePreview" style="display: none;"></div>
@@ -435,19 +433,19 @@
                         
                         <div class="form-group">
                             <label for="name" class="form-label required">
-                                <span class="label-icon">🏪</span>
+                                <span class="label-icon"></span>
                                 Brand Name
                             </label>
                             <div class="input-wrapper">
                                 <input type="text" name="name" id="name" class="form-input" placeholder="e.g., Nike" required>
-                                <span class="form-icon">🏷️</span>
+                                <span class="form-icon"></span>
                             </div>
                             <div class="field-help">Enter a descriptive name for this brand</div>
                         </div>
                         
                         <div class="form-group full-width status-section">
                             <label class="form-label">
-                                <span class="label-icon">⚡</span>
+                                <span class="label-icon"></span>
                                 Brand Status
                             </label>
                             <div class="status-options">

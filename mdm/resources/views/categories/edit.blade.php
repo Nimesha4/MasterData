@@ -299,12 +299,11 @@
 
 <div class="dashboard-container">
     <div class="container-fluid">
-        <h2 class="section-title">📝 Edit Category</h2>
-        
+         
         <div class="form-container">
             <div class="form-card">
                 <div class="form-header">
-                    <div class="form-icon">📁</div>
+                    
                     <h3 class="form-title">Update Category Details</h3>
                     <div class="form-subtitle">Modify the category information below</div>
                 </div>
@@ -316,7 +315,7 @@
                         
                         <div class="form-group">
                             <label class="form-label" for="code">Category Code</label>
-                            <div class="input-icon" data-icon="🏷️">
+                            <div class="input-icon" data-icon="">
                                 <input 
                                     type="text" 
                                     id="code"
@@ -331,7 +330,7 @@
                         
                         <div class="form-group">
                             <label class="form-label" for="name">Category Name</label>
-                            <div class="input-icon" data-icon="📝">
+                            <div class="input-icon" data-icon="">
                                 <input 
                                     type="text" 
                                     id="name"
@@ -358,10 +357,10 @@
                         
                         <div class="btn-group">
                             <button type="submit" class="btn btn-primary">
-                                💾 Update Category
+                                Update Category
                             </button>
                             <a href="{{ route('categories.index') }}" class="btn btn-secondary">
-                                ↩️ Back to 
+                                Back to Categories
                             </a>
                         </div>
                     </form>

@@ -54,7 +54,7 @@
         }
 
        .image-section {
-    background: linear-gradient(rgba(255, 140, 0, 0.5), rgba(255, 140, 0, 0.2)),
+    background: linear-gradient(rgba(0,0,0,0.8), rgba(255, 140, 0, 0.5), rgba(255, 140, 0, 0.2)),
                 url('https://www.mjmfurniture.com/cdn/shop/files/new_arrivals_mjm_furniture_a21eb6e3-eef8-4bf4-8f9a-f2191489ac8e_1600x.jpg?v=1747941448') 
                 no-repeat center center;
     background-size: cover;
@@ -107,23 +107,25 @@
 
         .welcome-content h2 {
             font-size: 2.8rem;
-            font-weight: 700;
+            font-weight: 900;
             margin-bottom: 1.5rem;
-            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
-            background: linear-gradient(45deg, #ffffff, rgba(255, 255, 255, 0.8));
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(45deg, #ffffff, rgba(255, 255, 255, 0.9));
             -webkit-background-clip: text;
             background-clip: text;
             -webkit-text-fill-color: transparent;
             line-height: 1.2;
+            letter-spacing: 1px;
         }
 
         .welcome-content p {
             font-size: 1.2rem;
-            opacity: 0.95;
+            opacity: 0.98;
             line-height: 1.6;
             max-width: 320px;
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
-            font-weight: 400;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.18);
+            font-weight: 700;
+            letter-spacing: 0.5px;
         }
 
         .welcome-icon {

@@ -248,7 +248,7 @@
     }
     
     .btn-primary::before {
-        content: '💾';
+        content: '';
         font-size: 1rem;
     }
     
@@ -280,7 +280,7 @@
     }
     
     .btn-secondary::before {
-        content: '↩️';
+        content: '';
         font-size: 1rem;
     }
     
@@ -393,9 +393,7 @@
 </style>
 
 <div class="form-container">
-    <div class="form-header">
-        <h1 class="page-title">Add New Item</h1>
-    </div>
+    
     
     <div class="form-content">
         @if(session('success'))
@@ -425,7 +423,7 @@
                     <div class="form-grid">
                         <div class="form-group">
                             <label for="brand_id" class="form-label required">
-                                <span class="label-icon">🏷️</span>
+                                <span class="label-icon"></span>
                                 Brand
                             </label>
                             <select name="brand_id" id="brand_id" class="form-select" required>
@@ -442,7 +440,7 @@
                         
                         <div class="form-group">
                             <label for="category_id" class="form-label required">
-                                <span class="label-icon">📁</span>
+                                <span class="label-icon"></span>
                                 Category
                             </label>
                             <select name="category_id" id="category_id" class="form-select" required>
@@ -459,7 +457,7 @@
                         
                         <div class="form-group">
                             <label for="code" class="form-label required">
-                                <span class="label-icon">🔢</span>
+                                <span class="label-icon"></span>
                                 Item Code
                             </label>
                             <input type="text" name="code" id="code" class="form-input" placeholder="Enter item code" value="{{ old('code') }}" required>
@@ -470,7 +468,7 @@
                         
                         <div class="form-group">
                             <label for="name" class="form-label required">
-                                <span class="label-icon">📝</span>
+                                <span class="label-icon"></span>
                                 Item Name
                             </label>
                             <input type="text" name="name" id="name" class="form-input" placeholder="Enter item name" value="{{ old('name') }}" required>
@@ -481,7 +479,7 @@
                         
                         <div class="form-group full-width">
                             <label class="form-label">
-                                <span class="label-icon">⚡</span>
+                                <span class="label-icon"></span>
                                 Status
                             </label>
                             <div class="status-options">

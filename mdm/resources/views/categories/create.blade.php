@@ -43,7 +43,7 @@
     }
     
     .page-title::before {
-        content: '📁';
+        content: '';
         margin-right: 0.5rem;
         font-size: 1.8rem;
     }
@@ -266,7 +266,7 @@
     }
     
     .btn-primary::before {
-        content: '💾';
+        content: '';
         font-size: 1.1rem;
     }
     
@@ -298,7 +298,7 @@
     }
     
     .btn-secondary::before {
-        content: '↩️';
+        content: '';
         font-size: 1.1rem;
     }
     
@@ -404,9 +404,7 @@
 </style>
 
 <div class="form-container">
-    <div class="form-header">
-        <h1 class="page-title">Add New Category</h1>
-    </div>
+     
     
     <div class="form-content">
         <div class="form-card">
@@ -422,12 +420,12 @@
                     <div class="form-grid">
                         <div class="form-group">
                             <label for="code" class="form-label required">
-                                <span class="label-icon">🔢</span>
+                                <span class="label-icon"></span>
                                 Category Code
                             </label>
                             <div class="input-wrapper">
                                 <input type="text" name="code" id="code" class="form-input" placeholder="e.g., ELEC001" required>
-                                <span class="form-icon">📋</span>
+                                <span class="form-icon"></span>
                             </div>
                             <div class="field-help">Enter a unique code identifier for this category</div>
                             <div class="code-preview" id="codePreview" style="display: none;"></div>
@@ -435,19 +433,19 @@
                         
                         <div class="form-group">
                             <label for="name" class="form-label required">
-                                <span class="label-icon">📝</span>
+                                <span class="label-icon"></span>
                                 Category Name
                             </label>
                             <div class="input-wrapper">
                                 <input type="text" name="name" id="name" class="form-input" placeholder="e.g., Electronics" required>
-                                <span class="form-icon">🏷️</span>
+                                <span class="form-icon"></span>
                             </div>
                             <div class="field-help">Enter a descriptive name for this category</div>
                         </div>
                         
                         <div class="form-group full-width status-section">
                             <label class="form-label">
-                                <span class="label-icon">⚡</span>
+                                <span class="label-icon"></span>
                                 Category Status
                             </label>
                             <div class="status-options">

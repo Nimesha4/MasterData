@@ -485,8 +485,11 @@
                 </style>
             </form>
             <div style="display:flex;gap:0.5rem;">
-                <a href="{{ route('brands.export', array_merge(request()->all(), ['type'=>'csv'])) }}" class="btn-add" style="background:linear-gradient(135deg,#4299e1,#63b3ed);padding:0.35rem 0.8rem;font-size:0.8rem;"><span style="font-size:1em;"></span> Export CSV</a>
-                <a href="{{ route('brands.export', array_merge(request()->all(), ['type'=>'pdf'])) }}" class="btn-add" style="background:linear-gradient(135deg,#38a169,#68d391);padding:0.35rem 0.8rem;font-size:0.8rem;"><span style="font-size:1em;"></span> Export PDF</a>
+                <style>
+                    .export-btn.btn-add::before { content: none !important; }
+                </style>
+                <a href="{{ route('brands.export', array_merge(request()->all(), ['type'=>'csv'])) }}" class="btn-add export-btn" style="padding:0.35rem 0.8rem;font-size:0.8rem;">Export CSV</a>
+                <a href="{{ route('brands.export', array_merge(request()->all(), ['type'=>'pdf'])) }}" class="btn-add export-btn" style="padding:0.35rem 0.8rem;font-size:0.8rem;">Export PDF</a>
             </div>
             @if(!auth()->user()->is_admin)
                 <a href="{{ route('brands.create') }}" class="btn-add" style="padding:0.35rem 0.8rem;font-size:0.8rem;">

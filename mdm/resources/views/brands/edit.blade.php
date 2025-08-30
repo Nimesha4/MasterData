@@ -299,7 +299,7 @@
 
 <div class="dashboard-container">
     <div class="container-fluid">
-        <h2 class="section-title">🏷️ Edit Brand</h2>
+       
         
         <div class="form-container">
             <div class="form-card">
@@ -316,7 +316,7 @@
                         
                         <div class="form-group">
                             <label class="form-label" for="code">Brand Code</label>
-                            <div class="input-icon" data-icon="🏷️">
+                            <div >
                                 <input 
                                     type="text" 
                                     id="code"
@@ -331,7 +331,7 @@
                         
                         <div class="form-group">
                             <label class="form-label" for="name">Brand Name</label>
-                            <div class="input-icon" data-icon="🏪">
+                            <div >
                                 <input 
                                     type="text" 
                                     id="name"
@@ -358,10 +358,10 @@
                         
                         <div class="btn-group">
                             <button type="submit" class="btn btn-primary">
-                                💾 Update Brand
+                            Update Brand
                             </button>
                             <a href="{{ route('brands.index') }}" class="btn btn-secondary">
-                                ↩️ Back to Brands
+                            Back to Brands
                             </a>
                         </div>
                     </form>
