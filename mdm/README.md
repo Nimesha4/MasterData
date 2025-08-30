@@ -1,3 +1,92 @@
+# Master Data Management (MDM)
+
+Master Data Management (MDM) is a Laravel-based web application for managing brands, categories, and items with robust user authentication and role-based access control. The project is designed for organizations that need to maintain structured master data with clear user permissions and modern UI.
+## Features
+
+- **User Authentication & Authorization**
+   - Secure registration and login
+- **Brand Management**
+   - Create, read, update, and delete brands
+   - Unique code and name for each brand
+- **Category Management**
+   - CRUD operations for categories
+   - Unique code and name for each category
+- **Item Management**
+   - CRUD operations for items
+   - Link items to brands and categories
+- **Modern UI**
+   - Built with Blade templates and TailwindCSS
+   - Responsive dashboard and management screens
+- **Security**
+   - CSRF protection
+   - Form validation
+## Tech Stack
+
+- PHP 8.2+
+- Laravel 12.x
+## Getting Started
+
+### Prerequisites
+- PHP >= 8.2
+- Composer
+- Node.js & npm
+### Installation
+
+1. **Clone the repository**
+2. **Install PHP and JS dependencies**
+   ```bash
+   composer install
+3. **Environment Setup**
+   - Copy `.env.example` to `.env` and update database credentials
+   ```bash
+4. **Database Setup**
+   - Configure `.env` for MySQL or use SQLite (default: `database/database.sqlite`)
+   - Run migrations and seeders:
+5. **Start the development server**
+   ```bash
+   php artisan serve
+## Database Structure
+
+The application uses four main tables: `users`, `brands`, `categories`, and `items`. Each table includes audit fields (`created_at`, `updated_at`).
+**users**
+- id, name, email, password, is_admin, timestamps
+
+**brands**
+- id, user_id, code, name, status, timestamps
+
+**categories**
+- id, user_id, code, name, status, timestamps
+
+**items**
+- id, user_id, brand_id, category_id, code, name, attachment, status, timestamps
+
+## User Roles & Permissions
+- **Admin**: Full access to all data and user management
+- **User**: Access limited to own brands, categories, and items
+
+## Main Routes
+- `/` - Welcome page
+- `/register` - Register new user
+- `/login` - Login
+- `/dashboard` - User dashboard
+- `/brands` - Manage brands
+- `/categories` - Manage categories
+- `/items` - Manage items
+- `/profile` - Manage user profile
+
+## Development
+- **Testing**: Use `php artisan test` to run tests
+- **Asset Compilation**: Use `npm run dev` for hot reload during development
+
+## Security
+- All management features require authentication
+- CSRF protection enabled
+- Passwords are hashed
+- Role-based access enforced in controllers and middleware
+
+## Author
+
+Nimesha Jayawickrama
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">
@@ -56,6 +145,163 @@ In order to ensure that the Laravel community is welcoming to all, please review
 
 If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
 
-## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+
+# Master Data Management (MDM)
+
+A Laravel-based application for managing brands, categories, and items with user authentication and role-based access control.
+
+## Features
+
+- **User Authentication**
+  - Login and Registration
+  - Admin and User roles
+  - Profile management
+
+- **Brand Management**
+  - Create, Read, Update, Delete (CRUD)
+  - Code and name management
+  - Active/Inactive status
+  - User-specific brand views
+  - Admin access to all brands
+
+- **Category Management**
+  - CRUD operations
+  - Code and name management
+  - Active/Inactive status
+  - User-specific category views
+  - Admin access to all categories
+
+- **Item Management**
+  - CRUD operations
+  - Link items to brands and categories
+  - File attachment support
+  - Active/Inactive status
+  - User-specific item views
+  - Admin access to all items
+
+## Tech Stack
+
+- PHP 8.2.12
+- Laravel 12.26.3
+- MySQL Database
+- Blade Templates
+- TailwindCSS
+
+## Installation
+
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd mdm
+   ```
+
+2. **Install dependencies**
+   ```bash
+   composer install
+   npm install
+   ```
+
+3. **Environment Setup**
+   ```bash
+   cp .env.example .env
+   php artisan key:generate
+   ```
+
+4. **Configure Database**
+   - Update `.env` with your database credentials
+   ```env
+   DB_CONNECTION=mysql
+   DB_HOST=127.0.0.1
+   DB_PORT=3306
+   DB_DATABASE=mdm_db
+   DB_USERNAME=your_username
+   DB_PASSWORD=your_password
+   ```
+
+5. **Run Migrations**
+   ```bash
+   php artisan migrate
+   ```
+
+6. **Start the server**
+   ```bash
+   php artisan serve
+   ```
+
+## Database Structure
+
+### Users Table
+- id (bigint, unsigned)
+- name (varchar)
+- email (varchar, unique)
+- password (varchar)
+- is_admin (tinyint)
+- created_at (timestamp)
+- updated_at (timestamp)
+
+### Brands Table
+- id (bigint, unsigned)
+- user_id (bigint, unsigned, foreign key)
+- code (varchar, unique)
+- name (varchar)
+- status (enum: Active/Inactive)
+- created_at (timestamp)
+- updated_at (timestamp)
+
+### Categories Table
+- id (bigint, unsigned)
+- user_id (bigint, unsigned, foreign key)
+- code (varchar, unique)
+- name (varchar)
+- status (enum: Active/Inactive)
+- created_at (timestamp)
+- updated_at (timestamp)
+
+### Items Table
+- id (bigint, unsigned)
+- user_id (bigint, unsigned, foreign key)
+- brand_id (bigint, unsigned, foreign key)
+- category_id (bigint, unsigned, foreign key)
+- code (varchar, unique)
+- name (varchar)
+- attachment (varchar, nullable)
+- status (enum: Active/Inactive)
+- created_at (timestamp)
+- updated_at (timestamp)
+
+## Role-Based Access
+
+### Admin Users
+- Can view all users' data
+- Full CRUD access to all brands, categories, and items
+- Can manage user accounts
+
+### Regular Users
+- Can only view and manage their own data
+- CRUD access limited to their own brands, categories, and items
+- Can update their profile
+
+## Routes
+
+- `/` - Welcome page
+- `/register` - User registration
+- `/login` - User login
+- `/dashboard` - Main dashboard
+- `/brands` - Brand management
+- `/categories` - Category management
+- `/items` - Item management
+- `/profile` - User profile management
+
+## Security
+
+- Authentication required for all management features
+- CSRF protection
+- Form validation
+- Role-based access control
+- Secure password hashing
+
+## Author
+
+Nimesha Jayawickrama
